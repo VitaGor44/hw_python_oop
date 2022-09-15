@@ -1,27 +1,28 @@
 from typing import List, Dict
-from dataclasses import dataclass
-from dataclasses import asdict
 
 
-@dataclass
-class InfoMessage():
+class InfoMessage:
     """Информационное сообщение о тренировке."""
-    training_type: str
-    duration: float
-    distance: float
-    speed: float
-    calories: float
-    MESSAGE: str = (
-        "Тип тренировки: {training_type};"
-        "Длительность: {duration:.3f} ч.;"
-        "Дистанция: {distance:.3f} км;"
-        "Ср.скорость: {speed:.3f} км / ч;"
-        "Потрачено ккал: {calories:.3f}."
-    )
+
+    def __init__(self,
+                 training_type: str,
+                 duration: float,
+                 distance: float,
+                 speed: float,
+                 calories: float) -> None:
+        self.training_type = training_type
+        self.duration = duration
+        self.distance = distance
+        self.speed = speed
+        self.calories = calories
 
     def get_message(self) -> str:
         """Возвращает строку сообщения о тренировке"""
-        return self.MESSAGE.format(**asdict(self))
+        return (f"Тип тренировки: {self.training_type};"
+                f"Длительность: {self.duration:.3f} ч.;"
+                f"Дистанция: {self.distance:.3f} км;"
+                f"Ср.скорость: {self.speed:.3f} км / ч;"
+                f"Потрачено ккал: {self.calories:.3f}.")
 
 
 class Training:
@@ -99,7 +100,7 @@ class SportsWalking(Training):
         sw_calories = (
             (
                 self.COEFF_WEIGHT_1 * self.weight
-                + (self.get_mean_speed()**2 // self.height)
+                + (self.get_mean_speed() ** 2 // self.height)
                 * self.COEFF_WEIGHT_2 * self.weight)
             * self.duration * self.MIN_IN_HOUR
         )
